@@ -55,6 +55,7 @@ import { files as api } from "@/api";
 import * as upload from "@/utils/upload";
 import { computed, inject, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 const touches = ref<number>(0);
 
@@ -65,6 +66,7 @@ const startPosition = ref<{ x: number; y: number } | null>(null);
 const moveThreshold = ref<number>(10);
 
 const $showError = inject<IToastError>("$showError")!;
+const { t } = useI18n();
 const router = useRouter();
 
 const props = defineProps<{
@@ -123,10 +125,19 @@ const humanSize = () => {
 };
 
 const humanTime = () => {
+  const mtime = dayjs(props.modified);
   if (!props.readOnly && authStore.user?.dateFormat) {
-    return dayjs(props.modified).format("L LT");
+    return mtime.format("L LT");
   }
-  return dayjs(props.modified).fromNow();
+
+  const now = dayjs();
+  if (mtime.isAfter(now.subtract(7, "day"))) {
+    return mtime.fromNow();
+  }
+  if (mtime.isAfter(now.subtract(1, "year"))) {
+    return mtime.format(t("time.thisYearDateFormat"));
+  }
+  return mtime.format(t("time.dateFormat"));
 };
 
 const dragStart = () => {

@@ -304,6 +304,8 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds",
-    "unit": "Time Unit"
+    "unit": "Time Unit",
+    "dateFormat": "YYYY-MM-DD HH:mm",
+    "thisYearDateFormat": "MM-DD HH:mm"
   }
 }

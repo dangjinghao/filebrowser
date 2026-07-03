@@ -132,10 +132,10 @@ export default {
     },
     humanTime: function () {
       if (this.selectedCount === 0) {
-        return dayjs(this.req.modified).fromNow();
+        return dayjs(this.req.modified).format(this.$t("time.dateFormat"));
       }
 
-      return dayjs(this.req.items[this.selected[0]].modified).fromNow();
+      return dayjs(this.req.items[this.selected[0]].modified).format(this.$t("time.dateFormat"));
     },
     modTime: function () {
       if (this.selectedCount === 0) {
